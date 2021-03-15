@@ -9,7 +9,7 @@ namespace WebApp.Models
 {
     public class Item
     {
-        private string _breadcrumbsDb;
+
         private List<string> _breadcrumbs;
         public long Id { get; set; }
         public string Name { get; set; }
@@ -19,15 +19,15 @@ namespace WebApp.Models
         public ItemType Type { get; set; }
 
         [NotMapped]
-        public List<string> Breadcrumbs { get { return _breadcrumbs != null ? _breadcrumbs : _breadcrumbsDb.Split('/').ToList(); }  set { _breadcrumbs = value; } }
+        public List<string> Breadcrumbs
+        {
+            get { return _breadcrumbs ?? BreadcrumbsString.Split('|').ToList(); }
+            set { _breadcrumbs = value; }
+        }
 
         [JsonIgnore]
         [Column("Breadcrumbs")]
-        public string BreadcrumbsDb
-        {
-            get { return Breadcrumbs != null ? string.Join("/", Breadcrumbs) : ""; }
-            set { Breadcrumbs = value.Split('/').ToList(); }
-        }
+        public string BreadcrumbsString { get; set; }
 
         public DateTime Timestamp { get; set; }
     }

@@ -21,16 +21,18 @@ namespace WebApp.Core
 
         private Logger Logger { get; }
         private Parser Parser { get; }
+        private DataRepository DataRepository { get; }
         private IConfiguration Configuration { get; }
 
-
-        public ResourceDownloader(Parser parser, Logger logger, IConfiguration configuration)
+        public ResourceDownloader(DataRepository dataRepository, Parser parser, Logger logger, IConfiguration configuration)
         {
+            DataRepository = dataRepository;
             Parser = parser;
             Logger = logger;
             Configuration = configuration;
             GithubAccessToken = Configuration["GithubAccessToken"];
         }
+
 
         public async Task CacheAllData()
         {
@@ -43,7 +45,10 @@ namespace WebApp.Core
                 var today = DateTime.Today;
                 var mdnData = new MdnData {Timestamp = today, Items = items, Count = items.Count()};
 
-                Logger.Log($@"Success! Downloaded {items.Count()} items. DICTIONARY COUNT: {mdnData.Count}");
+                DataRepository.Remove();
+                DataRepository.Add(today, mdnData);
+
+                Logger.Log($@"Success! Downloaded {items.Count()} items. DICTIONARY COUNT: {DataRepository.Count()}");
             }
             catch (Exception e)
             {
