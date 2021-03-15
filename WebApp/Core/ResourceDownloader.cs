@@ -34,7 +34,7 @@ namespace WebApp.Core
         }
 
 
-        public async Task CacheAllData()
+        public async Task<bool> CacheAllData()
         {
             Logger.Log("Start");
 
@@ -49,10 +49,14 @@ namespace WebApp.Core
                 DataRepository.Add(today, mdnData);
 
                 Logger.Log($@"Success! Downloaded {items.Count()} items. DICTIONARY COUNT: {DataRepository.Count()}");
+                
+                return true;
             }
             catch (Exception e)
             {
                 Logger.Log($@"{e.Message} | STACKTRACE: {e.StackTrace}");
+                
+                return false;
             }
         }
 

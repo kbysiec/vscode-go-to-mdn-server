@@ -89,6 +89,9 @@ namespace WebApp
             services.AddScoped<UrlNormalizer>();
             services.AddScoped<ApplicationDbContext>();
             services.AddScoped<ResourceDownloaderJob>();
+            services.AddScoped<DataRepository>();
+            services.AddScoped<DataService>();
+            services.AddSingleton<JobProcessor>();
         }
     }
 }

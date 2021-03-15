@@ -7,15 +7,18 @@ namespace WebApp.Scheduler
     public class ResourceDownloaderJob: IInvocable
     {
         private ResourceDownloader ResourceDownloader { get; }
+        private JobProcessor JobProcessor { get; }
 
-        public ResourceDownloaderJob(ResourceDownloader resourceDownloader)
+        public ResourceDownloaderJob(ResourceDownloader resourceDownloader, JobProcessor jobProcessor)
         {
             ResourceDownloader = resourceDownloader;
+            JobProcessor = jobProcessor;
         }
 
-        public Task Invoke()
+        public async Task Invoke()
         {
-            return ResourceDownloader.CacheAllData();
+            await ResourceDownloader.CacheAllData();
+            JobProcessor.SetBusy(false);
         }
     }
 }
