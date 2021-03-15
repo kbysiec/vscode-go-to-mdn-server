@@ -88,6 +88,7 @@ namespace WebApp
             services.AddScoped<Parser>();
             services.AddScoped<UrlNormalizer>();
             services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<ResourceDownloaderJob>();
         }
     }
 }
