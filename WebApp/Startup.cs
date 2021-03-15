@@ -8,7 +8,9 @@ using WebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApp.Core;
 using WebApp.Scheduler;
+using WebApp.Utils;
 
 namespace WebApp
 {
@@ -41,6 +43,8 @@ namespace WebApp
             services.AddCoravelPro(typeof(ApplicationDbContext));
             services.AddPermission<DashboardAccessValidator>();
             services.AddQueue();
+
+            RegisterDependencies(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +79,15 @@ namespace WebApp
             });
 
             app.UseCoravelPro();
+        }
+
+        private void RegisterDependencies(IServiceCollection services)
+        {
+            services.AddScoped<Logger>();
+            services.AddScoped<ResourceDownloader>();
+            services.AddScoped<Parser>();
+            services.AddScoped<UrlNormalizer>();
+            services.AddScoped<ApplicationDbContext>();
         }
     }
 }
