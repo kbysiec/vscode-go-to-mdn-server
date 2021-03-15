@@ -8,6 +8,7 @@ using WebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApp.Scheduler;
 
 namespace WebApp
 {
@@ -29,9 +30,16 @@ namespace WebApp
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
-
             services.AddRazorPages().AddNewtonsoftJson();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanAccessPolicy", policy =>
+                    policy.RequireClaim("CanAccess", "true"));
+            });
+
             services.AddCoravelPro(typeof(ApplicationDbContext));
+            services.AddPermission<DashboardAccessValidator>();
             services.AddQueue();
         }
 
