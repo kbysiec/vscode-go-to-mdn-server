@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace WebApp.Infrastructure
+namespace WebApp.Utils
 {
     public class Logger
     {
