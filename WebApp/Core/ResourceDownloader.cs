@@ -42,8 +42,12 @@ namespace WebApp.Core
             {
                 var rootItems = await GetRootItems();
                 var items = await GetAllItems(rootItems);
-                var today = DateTime.Today;
-                var mdnData = new MdnData {Timestamp = today, Items = items, Count = items.Count()};
+                var mdnData = new MdnData
+                {
+                    Timestamp = DateTime.Today,
+                    Items = items,
+                    Count = items.Count()
+                };
 
                 DataRepository.Remove();
                 DataRepository.Add(mdnData);

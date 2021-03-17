@@ -17,7 +17,7 @@ namespace WebApp.Core
 
         public MdnData Get()
         {
-            MdnData mdnData = DataRepository.GetLast();
+            var mdnData = DataRepository.GetLast();
             var today = DateTime.Today;
 
             if (DataRepository.Exists(today)) return mdnData;
