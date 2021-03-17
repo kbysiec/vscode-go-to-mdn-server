@@ -46,7 +46,7 @@ namespace WebApp.Core
                 var mdnData = new MdnData {Timestamp = today, Items = items, Count = items.Count()};
 
                 DataRepository.Remove();
-                DataRepository.Add(today, mdnData);
+                DataRepository.Add(mdnData);
 
                 Logger.Add($@"Success! Downloaded {items.Count()} items. DICTIONARY COUNT: {DataRepository.Count()}");
                 
