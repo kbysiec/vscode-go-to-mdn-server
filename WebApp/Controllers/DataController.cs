@@ -21,7 +21,7 @@ namespace WebApp.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("get-data")]
+        [HttpGet("get")]
         public IActionResult GetData()
         {
             try
@@ -45,10 +45,10 @@ namespace WebApp.Controllers
         }
 
         [Authorize(Policy = "CanAccessPolicy")]
-        [HttpGet("count-data")]
+        [HttpGet("count")]
         public IActionResult Count()
         {
-            var count = DataService.CountItems();
+            var count = DataService.Count();
             return Ok(count);
         }
     }

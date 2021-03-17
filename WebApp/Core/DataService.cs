@@ -26,7 +26,7 @@ namespace WebApp.Core
             return mdnData;
         }
 
-        public int CountItems()
+        public int Count()
         {
             return DataRepository.Count();
         }
