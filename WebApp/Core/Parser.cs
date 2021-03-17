@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json.Linq;
 using WebApp.Core.Models;
 using WebApp.Models;
@@ -33,8 +34,17 @@ namespace WebApp.Core
                 var url = UrlNormalizer.NormalizeUrl(element);
                 var name = UrlNormalizer.GetNameFromUrl(url);
                 var breadcrumbs = new List<string> {name};
+                var breadcrumbsString = breadcrumbs.Join("|");
 
-                var item = new Item {Url = url, Type = ItemType.Dir, Name = name, Breadcrumbs = breadcrumbs};
+                var item = new Item
+                {
+                    Url = url,
+                    Type = ItemType.Dir,
+                    Name = name,
+                    Breadcrumbs = breadcrumbs,
+                    BreadcrumbsString = breadcrumbsString,
+                    Timestamp = DateTime.Today,
+                };
                 result.Add(item);
             }
 
@@ -52,6 +62,7 @@ namespace WebApp.Core
                 var name = UrlNormalizer.GetNameFromUrl(tempItem.Url);
                 name = NormalizeItemName(name);
                 var breadcrumbs = new List<string>(item.Breadcrumbs) {name};
+                var breadcrumbsString = breadcrumbs.Join("|");
 
                 result.Add(new Item
                 {
@@ -60,7 +71,9 @@ namespace WebApp.Core
                     Type = type,
                     Parent = item,
                     RootParent = item.Parent ?? item,
-                    Breadcrumbs = breadcrumbs
+                    Breadcrumbs = breadcrumbs,
+                    BreadcrumbsString = breadcrumbsString,
+                    Timestamp = DateTime.Today,
                 });
             }
 
@@ -89,6 +102,7 @@ namespace WebApp.Core
                     Parent = item,
                     RootParent = item.Parent ?? item,
                     Breadcrumbs = tempItem.Breadcrumbs,
+                    BreadcrumbsString = tempItem.Breadcrumbs.Join("|"),
                     Timestamp = DateTime.Today,
                 });
             }
