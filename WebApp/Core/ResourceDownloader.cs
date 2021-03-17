@@ -36,7 +36,7 @@ namespace WebApp.Core
 
         public async Task<bool> CacheAllData()
         {
-            Logger.Log("Start");
+            Logger.Add("Start");
 
             try
             {
@@ -48,13 +48,13 @@ namespace WebApp.Core
                 DataRepository.Remove();
                 DataRepository.Add(today, mdnData);
 
-                Logger.Log($@"Success! Downloaded {items.Count()} items. DICTIONARY COUNT: {DataRepository.Count()}");
+                Logger.Add($@"Success! Downloaded {items.Count()} items. DICTIONARY COUNT: {DataRepository.Count()}");
                 
                 return true;
             }
             catch (Exception e)
             {
-                Logger.Log($@"{e.Message} | STACKTRACE: {e.StackTrace}");
+                Logger.Add($@"{e.Message} | STACKTRACE: {e.StackTrace}");
                 
                 return false;
             }
@@ -62,7 +62,7 @@ namespace WebApp.Core
 
         private async Task<string> CallApi(string url)
         {
-            Logger.Log($@"CallApi: {url}");
+            Logger.Add($@"CallApi: {url}");
 
             using var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(
@@ -163,7 +163,7 @@ namespace WebApp.Core
             }
             catch (Exception ex)
             {
-                Logger.Log($@"{ex.Message} | STACKTRACE: {ex.StackTrace}  | CallApi: {item?.Url}");
+                Logger.Add($@"{ex.Message} | STACKTRACE: {ex.StackTrace}  | CallApi: {item?.Url}");
             }
 
             return items;

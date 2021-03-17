@@ -31,7 +31,7 @@ namespace WebApp.Controllers
             }
             catch (Exception e)
             {
-                Logger.Log($@"{e.Message} | STACKTRACE: {e.StackTrace}");
+                Logger.Add($@"{e.Message} | STACKTRACE: {e.StackTrace}");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

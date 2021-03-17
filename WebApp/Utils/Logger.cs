@@ -6,26 +6,25 @@ namespace WebApp.Utils
 {
     public class Logger
     {
-        public void Log(string message)
+        private static string Dir => Directory.GetCurrentDirectory();
+        private static string FileName => $@"{Dir}/log.txt";
+
+        public void Add(string message)
         {
-            var dir = Directory.GetCurrentDirectory();
-            File.AppendAllText($@"{dir}/log.txt",
+            File.AppendAllText(FileName,
                 $@"MESSAGE: {message} | TIMESTAMP: {DateTime.UtcNow} | {Environment.NewLine}");
         }
 
         public List<string> GetAll()
         {
-            var dir = Directory.GetCurrentDirectory();
-            var file = $@"{dir}/log.txt";
             var logs = new List<string>();
-            using (var reader = new StreamReader(file))
+            using var reader = new StreamReader(FileName);
+            while (reader.Peek() >= 0)
             {
-                while (reader.Peek() >= 0)
-                {
-                    var line = reader.ReadLine();
-                    logs.Add(line);
-                }
+                var line = reader.ReadLine();
+                logs.Add(line);
             }
+
             return logs;
         }
     }
