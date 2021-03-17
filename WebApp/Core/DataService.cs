@@ -30,5 +30,10 @@ namespace WebApp.Core
         {
             return DataRepository.Count();
         }
+
+        public void Clear()
+        {
+            DataRepository.Remove();
+        }
     }
 }

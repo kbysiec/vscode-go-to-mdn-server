@@ -51,5 +51,13 @@ namespace WebApp.Controllers
             var count = DataService.Count();
             return Ok(count);
         }
+
+        [Authorize(Policy = "CanAccessPolicy")]
+        [HttpGet("clear")]
+        public IActionResult ClearData()
+        {
+            DataService.Clear();
+            return Ok();
+        }
     }
 }
