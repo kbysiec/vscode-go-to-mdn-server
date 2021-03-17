@@ -37,14 +37,6 @@ namespace WebApp.Controllers
         }
 
         [Authorize(Policy = "CanAccessPolicy")]
-        [HttpGet("get-log")]
-        public IActionResult GetLog()
-        {
-            var logs = Logger.GetAll();
-            return Ok(logs);
-        }
-
-        [Authorize(Policy = "CanAccessPolicy")]
         [HttpGet("count")]
         public IActionResult Count()
         {
@@ -57,6 +49,22 @@ namespace WebApp.Controllers
         public IActionResult ClearData()
         {
             DataService.Clear();
+            return Ok();
+        }
+
+        [Authorize(Policy = "CanAccessPolicy")]
+        [HttpGet("get-log")]
+        public IActionResult GetLog()
+        {
+            var logs = Logger.GetAll();
+            return Ok(logs);
+        }
+
+        [Authorize(Policy = "CanAccessPolicy")]
+        [HttpGet("clear-log")]
+        public IActionResult ClearLog()
+        {
+            Logger.ClearAll();
             return Ok();
         }
     }

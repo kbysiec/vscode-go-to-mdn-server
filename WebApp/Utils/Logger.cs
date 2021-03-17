@@ -27,5 +27,10 @@ namespace WebApp.Utils
 
             return logs;
         }
+
+        public void ClearAll()
+        {
+            File.WriteAllText(FileName, string.Empty);
+        }
     }
 }
