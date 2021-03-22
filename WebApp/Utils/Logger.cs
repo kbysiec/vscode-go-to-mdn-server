@@ -25,6 +25,8 @@ namespace WebApp.Utils
                 logs.Add(line);
             }
 
+            logs.Reverse();
+
             return logs;
         }
 
