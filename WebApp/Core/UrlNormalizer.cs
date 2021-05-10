@@ -1,10 +1,22 @@
+using Microsoft.Extensions.Configuration;
+
 namespace WebApp.Core
 {
     public class UrlNormalizer
     {
         private string From { get; } = "https://github.com/";
         private string To { get; } = "https://api.github.com/";
-        private string QueryString { get; } = "?ref=master";
+        private string QueryString { get; set; }
+        private string MdnRepositoryBranchNameForUrls { get; set; }
+        
+        private IConfiguration Configuration { get; }
+
+        public UrlNormalizer(IConfiguration configuration)
+        {
+            Configuration = configuration;
+            MdnRepositoryBranchNameForUrls = Configuration["MdnRepositoryBranchNameForUrls"];
+            QueryString = $"?ref={MdnRepositoryBranchNameForUrls}";
+        }
 
         public string NormalizeUrl(string url)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using WebApp.Core.Models;
 using WebApp.Models;
@@ -12,15 +13,22 @@ namespace WebApp.Core
 {
     public class Parser
     {
-        private string RootUrlsRegexPattern { get; } =
-            "https://github.com/mdn/browser-compat-data/tree/master/[a-zA-Z]+";
+        private string RootUrlsRegexPattern { get; set; }
 
         private string SplitNormalizedNameRegex { get; } = "(?=[A-Z][a-z])";
-        private UrlNormalizer UrlNormalizer { get; }
+        private string MdnRepositoryBranchNameForRootUrlsRegexPattern { get; set; }
 
-        public Parser(UrlNormalizer urlNormalizer)
+        private UrlNormalizer UrlNormalizer { get; }
+        private IConfiguration Configuration { get; }
+
+
+        public Parser(UrlNormalizer urlNormalizer, IConfiguration configuration)
         {
             UrlNormalizer = urlNormalizer;
+            Configuration = configuration;
+            MdnRepositoryBranchNameForRootUrlsRegexPattern = Configuration["MdnRepositoryBranchNameForRootUrlsRegexPattern"];
+            RootUrlsRegexPattern = $"https://github.com/mdn/browser-compat-data/tree/{MdnRepositoryBranchNameForRootUrlsRegexPattern}/[a-zA-Z]+";
+
         }
 
         public HashSet<Item> GetRootDirectories(string content)

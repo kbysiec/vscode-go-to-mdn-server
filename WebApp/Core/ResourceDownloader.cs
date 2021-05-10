@@ -15,9 +15,9 @@ namespace WebApp.Core
 {
     public class ResourceDownloader
     {
-        private string RootUrl { get; } =
-            "https://api.github.com/repos/mdn/browser-compat-data/contents/README.md?ref=master";
+        private string RootUrl { get; set; }
         private string GithubAccessToken { get; set; }
+        private string MdnRepositoryCommitHashForGettingRootUrls { get; set; }
 
         private Logger Logger { get; }
         private Parser Parser { get; }
@@ -31,6 +31,8 @@ namespace WebApp.Core
             Logger = logger;
             Configuration = configuration;
             GithubAccessToken = Configuration["GithubAccessToken"];
+            MdnRepositoryCommitHashForGettingRootUrls = Configuration["MdnRepositoryCommitHashForGettingRootUrls"];
+            RootUrl = $"https://api.github.com/repos/mdn/browser-compat-data/contents/README.md?ref=1446832d245da286fb0d624d595b82ef1a7ce3c9";
         }
 
 
@@ -53,13 +55,13 @@ namespace WebApp.Core
                 DataRepository.Add(mdnData);
 
                 Logger.Add($@"Success! Downloaded {items.Count()} items. DICTIONARY COUNT: {DataRepository.Count()}");
-                
+
                 return true;
             }
             catch (Exception e)
             {
                 Logger.Add($@"{e.Message} | STACKTRACE: {e.StackTrace}");
-                
+
                 return false;
             }
         }
